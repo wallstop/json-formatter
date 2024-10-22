@@ -18,32 +18,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-const ARRAY_SEP = ", ";
-const OBJ_KV_SEP = ": ";
-
-/**
- * 
- * @param {any} o 
- * @returns {o is any[]}
- */
-function isArray(o) {
-    return Array.isArray(o);
-}
-
-/**
- * @param {any} o 
- * @returns {o is Object<string, any>}
- */
-function isObject(o) {
-    // https://stackoverflow.com/questions/8511281/check-if-a-value-is-an-object-in-javascript
-    return typeof o === 'object' && o !== null;
-}
-
-/** @param {number[]} arr */
-function sumArray(arr) {
-    return arr.reduce((s, e) => s + e, 0)
-}
-
 /**
  * @param {any} object 
  * @param {number} indent 
@@ -51,6 +25,32 @@ function sumArray(arr) {
  * @returns {string}
  */
 function prettifyJson(object, indent, lineLength) {
+    const ARRAY_SEP = ", ";
+    const OBJ_KV_SEP = ": ";
+
+    /**
+     * 
+     * @param {any} o 
+     * @returns {o is any[]}
+     */
+    function isArray(o) {
+        return Array.isArray(o);
+    }
+
+    /**
+     * @param {any} o 
+     * @returns {o is Object<string, any>}
+     */
+    function isObject(o) {
+        // https://stackoverflow.com/questions/8511281/check-if-a-value-is-an-object-in-javascript
+        return typeof o === 'object' && o !== null;
+    }
+
+    /** @param {number[]} arr */
+    function sumArray(arr) {
+        return arr.reduce((s, e) => s + e, 0)
+    }
+
     const singleLineLengths = {};
     function getSingleLineLength(o) {
         let ans = 0;
@@ -69,7 +69,7 @@ function prettifyJson(object, indent, lineLength) {
                         + OBJ_KV_SEP.length
                         + getSingleLineLength(kv[1])
                         + ARRAY_SEP.length)));
-            ans += "{}".length;
+            ans += "{  }".length;
             if (Object.keys(o).length > 0) {
                 ans -= ARRAY_SEP.length;
             }
@@ -127,14 +127,14 @@ function prettifyJson(object, indent, lineLength) {
         else if (isObject(currentNode)) {
             if (getSingleLineLength(currentNode) < currLineWidth || forceSingleLine) {
                 return [
-                    "{",
+                    "{ ",
                     Object.entries(currentNode)
                         .map((kvp) => [
                             getPrettyRepresentation(kvp[0], 0, 0, true),
                             OBJ_KV_SEP,
                             getPrettyRepresentation(kvp[1], 0, 0, true)].join(""))
                         .join(ARRAY_SEP),
-                    "}"
+                    " }"
                 ].join("");
             }
             else {
