@@ -1,10 +1,9 @@
-# Humanistic JSON Formatter
-A simple JavaScript program that formats JSON in a human-readable way. Uses a heuristic approach (no constaint optimization).
+# Simple JSON Formatter
+A simple JavaScript program that formats JSON in a human-readable way. Uses a heuristic approach (no constraint optimization).
 
 JSON is a human- and machine-readable data representation language. However, humans and machines make vastly different
-spacing and wrapping decisions when writing it. I think this a high scale problem - there are many times when developers
-in industry need to read large JSON objects (e.g. `az vm list-skus -l uswest --all`), and machine-formatted JSON is often
-not optimal for human readability. 
+spacing and wrapping decisions when writing it. There are many times when developers
+in industry need to read large JSON objects (e.g. `az vm list-skus -l uswest --all`), and machine-formatted JSON is often not optimal for human readability. 
 
 For example, consider the following simple JSON definition.
 ```json
@@ -56,16 +55,18 @@ Humans write JSON in a more natural and readable way. For example:
 
 
 ## Prior Art
-I did some quick Google searching (e.g. "json prettifier site:*.github.io") and looked at a few other developers'
-sites. None formatted the JSON the way I find optimal. I decided it would take an hour to write my own, so that's what I did.
+I did some quick Google searching (e.g. "json prettifier site:*.github.io") and looked at a few devs'
+sites. They didn't fit the above use case. I decided it would take an hour to write my own, so that's what I did.
+
+After writing this, I asked some friends for what they use:
+
+* `prettier` exists and mostly does the same thing as this
+* JSTool - https://www.sunjw.us/jstool/npp/ uses a different algorithm
 
 ## How it works
-We use a simple heuristic that is good enough in most cases.
-1. Compute tree containing length of each node (and its children) if they were printed on a single line.
-2. Walking the tree, expand the top-most elements (closest to the root) first until every subtree fits
-on a single line.
+We use a simple heuristic that is good enough in most cases: wrap the top-most elements (closest to the root) first until the subtree can fit on a single line.
 
-In general this is a constrained optimization problem depending on the metric to optimize
+The general problem is a constrained optimization problem depending on the metric to optimize
 (# of lines, # of expansions, etc.). But our heuristic works well enough in practical cases.
 
 ## Object Example
