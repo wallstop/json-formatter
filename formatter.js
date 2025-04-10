@@ -110,7 +110,7 @@ function prettifyJson(object, indent, lineLength) {
                 const ans = ["[\n"];
                 for (const e of currentNode) {
                     ans.push(" ".repeat(nextIndent + indent));
-                    ans.push(getPrettyRepresentation(e, nextIndent + indent, nextIndent + indent));
+                    ans.push(getPrettyRepresentation(e, nextIndent + indent, nextIndent + indent, false));
                     ans.push(ARRAY_SEP);
                     ans.push("\n");
                 }
@@ -146,7 +146,7 @@ function prettifyJson(object, indent, lineLength) {
                     ans.push(
                         getPrettyRepresentation(v,
                             nextIndent + indent + JSON.stringify(k).length + OBJ_KV_SEP.length,
-                            nextIndent + indent));
+                            nextIndent + indent, false));
                     ans.push(ARRAY_SEP);
                     ans.push("\n");
                 }
@@ -164,7 +164,7 @@ function prettifyJson(object, indent, lineLength) {
         }
     }
 
-    const result = getPrettyRepresentation(object, 0, 0);
+    const result = getPrettyRepresentation(object, 0, 0, false);
     const trimmedResult = result.split("\n").map(s => s.trimEnd()).join("\n");
     return trimmedResult;
 }
