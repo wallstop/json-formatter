@@ -146,7 +146,8 @@ function prettifyJson(object, indent, lineLength) {
                     ans.push(
                         getPrettyRepresentation(v,
                             nextIndent + indent + JSON.stringify(k).length + OBJ_KV_SEP.length,
-                            nextIndent + indent, false));
+                            nextIndent + indent,
+                            false));
                     ans.push(ARRAY_SEP);
                     ans.push("\n");
                 }
